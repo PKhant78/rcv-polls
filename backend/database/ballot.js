@@ -27,6 +27,15 @@ const Ballot = db.define("ballot", {
     allowNull: true,
     // Optional identifier to prevent duplicate votes (e.g., IP address, session ID)
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: "users",
+      key: "id",
+    },
+    // User ID of the authenticated user who voted
+  },
 });
 
 module.exports = Ballot;

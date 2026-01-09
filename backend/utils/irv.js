@@ -58,31 +58,34 @@ const calculateIRVResults = (ballots, options) => {
 
     // No majority winner, eliminate the option with the fewest votes
     let minVotes = Infinity;
-    let eliminatedOptionId = null;
-
+    
     activeOptions.forEach((option) => {
       const votes = round.voteCounts[option.id] || 0;
       if (votes < minVotes) {
         minVotes = votes;
-        eliminatedOptionId = option.id;
       }
     });
 
-    // If there's a tie, eliminate all tied options
+    // Find all options tied for the minimum votes
     const tiedOptions = activeOptions.filter(
-      (opt) => round.voteCounts[opt.id] === minVotes
+      (opt) => (round.voteCounts[opt.id] || 0) === minVotes
     );
 
     if (tiedOptions.length === activeOptions.length) {
-      // All options tied - no winner
+      // All options tied - this is a true tie, no winner
       rounds.push(round);
       return {
         winner: null,
         rounds,
         totalVotes,
-        message: "Tie - no winner determined",
+        message: "Tie - all remaining options have equal votes",
       };
     }
+
+    // If multiple options are tied for minimum, use tie-breaker (option ID order)
+    // Sort by ID to ensure deterministic elimination
+    tiedOptions.sort((a, b) => a.id - b.id);
+    const eliminatedOptionId = tiedOptions[0].id;
 
     round.eliminated = eliminatedOptionId;
     activeOptions = activeOptions.filter(

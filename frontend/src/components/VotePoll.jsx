@@ -86,9 +86,17 @@ const VotePoll = ({ poll, onVoteSubmitted }) => {
         }, 2000);
       }
     } catch (err) {
-      setError(
-        err.response?.data?.error || "Failed to submit vote. Please try again."
-      );
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError(
+          "You must be logged in to vote. Please refresh the page and log in."
+        );
+      } else if (err.response?.status === 400 && err.response?.data?.error?.includes("already voted")) {
+        setError(err.response.data.error);
+      } else {
+        setError(
+          err.response?.data?.error || "Failed to submit vote. Please try again."
+        );
+      }
     } finally {
       setLoading(false);
     }

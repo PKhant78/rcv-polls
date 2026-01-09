@@ -55,12 +55,30 @@ const PollDetail = ({ user }) => {
     }
   };
 
-  const copyShareLink = () => {
+  const copyShareLink = async () => {
     if (poll?.shareLink) {
       const shareUrl = `${window.location.origin}/vote/${poll.shareLink}`;
-      navigator.clipboard.writeText(shareUrl);
-      setShareLinkCopied(true);
-      setTimeout(() => setShareLinkCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        setShareLinkCopied(true);
+        setTimeout(() => setShareLinkCopied(false), 2000);
+      } catch (err) {
+        // Fallback for browsers that don't support clipboard API
+        const textArea = document.createElement("textarea");
+        textArea.value = shareUrl;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          setShareLinkCopied(true);
+          setTimeout(() => setShareLinkCopied(false), 2000);
+        } catch (e) {
+          console.error("Failed to copy link:", e);
+        }
+        document.body.removeChild(textArea);
+      }
     }
   };
 
@@ -115,11 +133,18 @@ const PollDetail = ({ user }) => {
             <div className="share-link">
               <label>Share Link:</label>
               <div className="share-link-input">
-                <input type="text" value={shareUrl} readOnly />
+                <input 
+                  type="text" 
+                  value={shareUrl} 
+                  readOnly 
+                  onClick={(e) => e.target.select()}
+                  onFocus={(e) => e.target.select()}
+                />
                 <button onClick={copyShareLink}>
                   {shareLinkCopied ? "Copied!" : "Copy"}
                 </button>
               </div>
+              <p className="share-link-hint">Click the link above to select it, or use the Copy button</p>
             </div>
           )}
         </div>

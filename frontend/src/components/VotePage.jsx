@@ -1,34 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../shared";
 import VotePoll from "./VotePoll";
 import PollResults from "./PollResults";
 import "./VotePageStyles.css";
 
-const VotePage = () => {
+const VotePage = ({ user }) => {
   const { shareLink } = useParams();
   const navigate = useNavigate();
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchPoll();
-  }, [shareLink]);
+  const fetchPoll = useCallback(async () => {
+    if (!shareLink) {
+      setError("Invalid share link");
+      setLoading(false);
+      return;
+    }
 
-  const fetchPoll = async () => {
     try {
+      setLoading(true);
+      setError("");
       const response = await axios.get(
         `${API_URL}/api/polls/share/${shareLink}`
       );
       setPoll(response.data);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to load poll");
+      setPoll(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, [shareLink]);
+
+  useEffect(() => {
+    fetchPoll();
+  }, [fetchPoll]);
 
   const handleVoteSubmitted = () => {
     // Refresh poll data after vote
@@ -70,6 +79,20 @@ const VotePage = () => {
 
       {poll.isClosed ? (
         <PollResults pollId={poll.id} />
+      ) : !user ? (
+        <div className="vote-page login-required">
+          <h2>Login Required to Vote</h2>
+          <p>You must be logged in to vote in this poll.</p>
+          <div className="auth-buttons">
+            <Link to={`/login?redirect=${encodeURIComponent(window.location.pathname)}`} className="login-link">
+              Login
+            </Link>
+            <span> or </span>
+            <Link to={`/signup?redirect=${encodeURIComponent(window.location.pathname)}`} className="signup-link">
+              Sign Up
+            </Link>
+          </div>
+        </div>
       ) : (
         <VotePoll poll={poll} onVoteSubmitted={handleVoteSubmitted} />
       )}

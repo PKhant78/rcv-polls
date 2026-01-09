@@ -110,28 +110,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get a specific poll by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const poll = await Poll.findByPk(req.params.id, {
-      include: [
-        { model: PollOption, as: "options", order: [["order", "ASC"]] },
-        { model: User, as: "creator", attributes: ["id", "username"] },
-      ],
-    });
-
-    if (!poll) {
-      return res.status(404).json({ error: "Poll not found" });
-    }
-
-    res.json(poll);
-  } catch (error) {
-    console.error("Error fetching poll:", error);
-    res.status(500).json({ error: "Failed to fetch poll" });
-  }
-});
-
-// Get poll by share link (public)
+// Get poll by share link (public) - MUST come before /:id route
 router.get("/share/:shareLink", async (req, res) => {
   try {
     const poll = await Poll.findOne({
@@ -153,6 +132,27 @@ router.get("/share/:shareLink", async (req, res) => {
     res.json(poll);
   } catch (error) {
     console.error("Error fetching poll by share link:", error);
+    res.status(500).json({ error: "Failed to fetch poll" });
+  }
+});
+
+// Get a specific poll by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const poll = await Poll.findByPk(req.params.id, {
+      include: [
+        { model: PollOption, as: "options", order: [["order", "ASC"]] },
+        { model: User, as: "creator", attributes: ["id", "username"] },
+      ],
+    });
+
+    if (!poll) {
+      return res.status(404).json({ error: "Poll not found" });
+    }
+
+    res.json(poll);
+  } catch (error) {
+    console.error("Error fetching poll:", error);
     res.status(500).json({ error: "Failed to fetch poll" });
   }
 });
@@ -231,8 +231,8 @@ router.put("/:id/close", authenticateJWT, async (req, res) => {
   }
 });
 
-// Submit a ballot (vote)
-router.post("/:id/vote", async (req, res) => {
+// Submit a ballot (vote) - requires authentication
+router.post("/:id/vote", authenticateJWT, async (req, res) => {
   try {
     const poll = await Poll.findByPk(req.params.id, {
       include: [{ model: PollOption, as: "options" }],
@@ -248,6 +248,18 @@ router.post("/:id/vote", async (req, res) => {
 
     if (poll.isClosed) {
       return res.status(400).json({ error: "Poll is closed" });
+    }
+
+    // Check if user has already voted
+    const existingBallot = await Ballot.findOne({
+      where: {
+        pollId: poll.id,
+        userId: req.user.id,
+      },
+    });
+
+    if (existingBallot) {
+      return res.status(400).json({ error: "You have already voted in this poll" });
     }
 
     const { rankings } = req.body;
@@ -287,15 +299,12 @@ router.post("/:id/vote", async (req, res) => {
       }
     }
 
-    // Get voter identifier (IP address or session)
-    const voterIdentifier =
-      req.ip || req.headers["x-forwarded-for"] || "anonymous";
-
-    // Create ballot
+    // Create ballot with user ID
     const ballot = await Ballot.create({
       pollId: poll.id,
       rankings,
-      voterIdentifier,
+      userId: req.user.id,
+      voterIdentifier: req.user.id.toString(), // Keep for backward compatibility
     });
 
     res.status(201).json({ message: "Vote submitted successfully", ballot });

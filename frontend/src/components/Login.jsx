@@ -12,6 +12,10 @@ const Login = ({ setUser }) => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
+  // Get redirect path from URL params or location state
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirectPath = searchParams.get("redirect") || "/";
 
   const validateForm = () => {
     const newErrors = {};
@@ -46,7 +50,7 @@ const Login = ({ setUser }) => {
       });
 
       setUser(response.data.user);
-      navigate("/");
+      navigate(redirectPath);
     } catch (error) {
       if (error.response?.data?.error) {
         setErrors({ general: error.response.data.error });
