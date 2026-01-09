@@ -1,34 +1,4 @@
-h1 {
-  color: #00ff41;
-  text-shadow: 0 0 20px rgba(0, 255, 65, 1), 0 0 40px rgba(0, 255, 65, 0.5);
-  letter-spacing: 3px;
-  text-align: center;
-  animation: pulse-glow-text 2s ease-in-out infinite alternate;
-}
-
-@keyframes pulse-glow-text {
-  from {
-    text-shadow: 0 0 20px rgba(0, 255, 65, 1), 0 0 40px rgba(0, 255, 65, 0.5);
-  }
-  to {
-    text-shadow: 0 0 30px rgba(0, 255, 65, 1), 0 0 60px rgba(0, 255, 65, 0.8);
-  }
-}
-
 .coyote-404 {
   width: 50%;
   height: auto;
-  filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.5));
-  animation: pulse-glow 2s ease-in-out infinite alternate;
-  display: block;
-  margin: 0 auto;
-}
-
-@keyframes pulse-glow {
-  from {
-    filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.5));
-  }
-  to {
-    filter: drop-shadow(0 0 30px rgba(0, 255, 65, 0.8));
-  }
 }
