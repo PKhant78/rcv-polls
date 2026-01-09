@@ -7,10 +7,11 @@
 }
 
 .auth-form {
-  background: white;
+  background: rgba(0, 0, 0, 0.9);
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #00ff41;
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.5), inset 0 0 20px rgba(0, 255, 65, 0.1);
   width: 100%;
   max-width: 400px;
 }
@@ -18,7 +19,9 @@
 .auth-form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #00ff41;
+  text-shadow: 0 0 15px rgba(0, 255, 65, 1), 0 0 30px rgba(0, 255, 65, 0.5);
+  letter-spacing: 2px;
 }
 
 .form-group {
@@ -29,64 +32,82 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: #00ff88;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
 }
 
 .form-group input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 2px solid #00ff41;
   border-radius: 4px;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  background: rgba(0, 0, 0, 0.8);
+  color: #00ff41;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #00ffff;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .form-group input.error {
-  border-color: #dc3545;
+  border-color: #ff0040;
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.5);
 }
 
 .error-text {
-  color: #dc3545;
+  color: #ff0040;
   font-size: 0.875rem;
   margin-top: 0.25rem;
   display: block;
+  text-shadow: 0 0 5px rgba(255, 0, 64, 0.5);
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: rgba(255, 0, 64, 0.1);
+  color: #ff0040;
   padding: 0.75rem;
   border-radius: 4px;
   margin-bottom: 1rem;
-  border: 1px solid #f5c6cb;
+  border: 1px solid #ff0040;
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
+  text-shadow: 0 0 5px rgba(255, 0, 64, 0.5);
 }
 
 .auth-form button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background-color: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  border: 2px solid #00ff41;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.8);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
 }
 
 .auth-form button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: rgba(0, 255, 65, 0.2);
+  box-shadow: 0 0 25px rgba(0, 255, 65, 0.8);
+  text-shadow: 0 0 10px rgba(0, 255, 65, 1);
+  transform: translateY(-2px);
 }
 
 .auth-form button:disabled {
-  background-color: #6c757d;
+  background-color: rgba(108, 117, 125, 0.1);
+  border-color: #6c757d;
+  color: #6c757d;
   cursor: not-allowed;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .auth-divider {
@@ -102,45 +123,53 @@
   left: 0;
   right: 0;
   height: 1px;
-  background-color: #ddd;
+  background: linear-gradient(90deg, transparent, #00ff41, transparent);
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
 .auth-divider span {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.9);
   padding: 0 1rem;
-  color: #666;
+  color: #00ff88;
   font-size: 0.875rem;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
 }
 
 .auth0-login-btn {
   width: 100%;
   padding: 0.75rem;
-  background-color: #eb5424;
-  color: white;
-  border: none;
+  background-color: rgba(235, 84, 36, 0.1);
+  color: #eb5424;
+  border: 2px solid #eb5424;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s;
   margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(235, 84, 36, 0.5);
+  box-shadow: 0 0 15px rgba(235, 84, 36, 0.3);
 }
 
 .auth0-login-btn:hover {
-  background-color: #d4451d;
+  background-color: rgba(235, 84, 36, 0.2);
+  box-shadow: 0 0 25px rgba(235, 84, 36, 0.6);
+  text-shadow: 0 0 10px rgba(235, 84, 36, 0.8);
 }
 
 .auth-link {
   text-align: center;
   margin-top: 1rem;
-  color: #666;
+  color: #00ff88;
 }
 
 .auth-link a {
-  color: #007bff;
+  color: #00ffff;
   text-decoration: none;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
 }
 
 .auth-link a:hover {
   text-decoration: underline;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 1);
 }

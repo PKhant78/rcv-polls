@@ -2,9 +2,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Raleway", sans-serif;
+  font-family: "Courier New", "Consolas", "Monaco", monospace;
 }
 
 body {
-  background-color: #fff;
+  background-color: #000000;
+  background-image: 
+    linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  color: #00ff41;
+  min-height: 100vh;
+}
+
+.app {
+  background-color: transparent;
 }

@@ -5,20 +5,26 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  background-color: #bcd4de;
+  background-color: rgba(0, 0, 0, 0.95);
   padding: 1rem 2rem;
-  border-bottom: 1px solid #000;
+  border-bottom: 2px solid #00ff41;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .nav-brand a {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #00ff41;
   text-decoration: none;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.8), 0 0 20px rgba(0, 255, 65, 0.5);
+  letter-spacing: 2px;
+  transition: all 0.3s;
 }
 
 .nav-brand a:hover {
-  color: #007bff;
+  color: #00ffff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.8);
 }
 
 .nav-links {
@@ -33,16 +39,20 @@
 }
 
 .nav-link {
-  color: #666;
+  color: #00ff88;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  border: 1px solid transparent;
 }
 
 .nav-link:hover {
-  color: #007bff;
-  background-color: #e9ecef;
+  color: #00ff41;
+  background-color: rgba(0, 255, 65, 0.1);
+  border-color: #00ff41;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.8);
 }
 
 .user-section {
@@ -52,21 +62,31 @@
 }
 
 .username {
-  color: #666;
+  color: #00ff88;
   font-weight: 500;
 }
 
+.user-name {
+  color: #00ff41;
+  font-weight: 500;
+  margin-right: 10px;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
 .logout-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
+  background-color: rgba(255, 0, 0, 0.2);
+  color: #ff0040;
+  border: 1px solid #ff0040;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.875rem;
-  transition: background-color 0.2s;
+  transition: all 0.3s;
+  text-shadow: 0 0 5px rgba(255, 0, 64, 0.5);
 }
 
 .logout-btn:hover {
-  background-color: #c82333;
+  background-color: rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 0, 64, 0.8);
+  text-shadow: 0 0 10px rgba(255, 0, 64, 1);
 }
